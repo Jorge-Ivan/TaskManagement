@@ -21,7 +21,7 @@
                           <a class="nav-link" href="{{route('projects.index')}}">Gestionar proyectos <span class="badge badge-primary badge-pill"> {{auth()->user()->projects()->count()}}</span></a>
                         </li>
                         <li class="nav-item">
-                          <a class="nav-link" href="#">Mis Tareas <span class="badge badge-primary badge-pill"> {{auth()->user()->tasks()->count()}}</span></a>
+                          <a class="nav-link" href="{{ route('tasks.index') }}">Mis Tareas <span class="badge badge-primary badge-pill"> {{auth()->user()->tasks()->count()}}</span></a>
                         </li>
                       </ul>
                 </div>

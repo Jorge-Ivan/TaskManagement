@@ -23,7 +23,7 @@ class TaskController extends Controller
      */
     public function index()
     {
-        $tasks = Task::where('id', $id)->where('user_id', auth()->id())->get();
+        $tasks = auth()->user()->tasks;
 
         return view('tasks.index', ['tasks'=>$tasks]);
     }
@@ -117,6 +117,23 @@ class TaskController extends Controller
         } catch (\Throwable $th) {
             Log::error($th);
             return response()->json(['message'=>'No se pudo eliminar la tarea, contacte al admin.'], 500);
+        }
+    }
+
+    function updateStatus(Request $request, $id) {
+        $request->validate([
+            'status_id' => 'required|exists:status,id'
+        ]);
+        try {
+            $task = Task::where('id', $id)->where('user_id', auth()->id())->firstOrFail();
+            $task->status_id = $request->status_id;
+
+            $task->save();
+
+            return response()->json(['message'=>'Tarea: '.$task->name.' actualizada']);
+        } catch (\Throwable $th) {
+            Log::error($th);
+            return response()->json(['message'=>'No se pudo actualizar la tarea, contacte al admin.'], 500);
         }
     }
 }

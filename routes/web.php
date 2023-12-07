@@ -40,4 +40,5 @@ Route::middleware(['auth'])->prefix('tareas')->group(function () {
 Route::middleware(['auth'])->prefix('usuarios')->group(function () {
     Route::get('/list', 'HomeController@listUsers')->name('users.list');
     Route::get('/mis-tareas', 'TaskController@index')->name('tasks.index');
+    Route::post('/mis-tareas/estado/{id?}', 'TaskController@updateStatus')->name('tasks.status');
 });

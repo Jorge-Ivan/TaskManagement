@@ -19,7 +19,7 @@
                     <ul class="list-group">
                         @foreach ($project->tasks()->cursor() as $task)
                         <li class="list-group-item d-flex justify-content-between align-items-center">
-                            <p><strong>{{$task->title}}</strong><br>
+                            <p><strong>{{$task->title}}</strong><br><strong>Estado: {{$task->status->name}}</strong><br>
                             Asignado a: {{$task->user->username}} - Fecha vencimiento: {{(empty($task->expire_date))?'Sin vencimiento':$task->expire_date}}</p>
                             <div class="btn-group">
                                 <button onclick="editTask({{$task->id}})" class="btn btn-info"><i class="bi bi-pencil-square"></i></button>

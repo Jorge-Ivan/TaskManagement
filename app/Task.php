@@ -44,4 +44,12 @@ class Task extends Model
     {
         return $this->belongsTo(User::class);
     }
+    
+    /**
+    * Get the status associated with the task.
+    */
+    public function status()
+    {
+        return $this->belongsTo(Status::class);
+    }
 }

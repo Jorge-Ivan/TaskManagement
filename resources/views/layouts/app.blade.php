@@ -43,7 +43,7 @@
                             <a class="nav-link" href="{{ route('projects.index') }}">{{ __('Proyectos') }}</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="">{{ __('Mis tareas') }} <span class="badge badge-primary badge-pill"> {{auth()->user()->tasks()->count()}}</span></a>
+                            <a class="nav-link" href="{{ route('tasks.index') }}">{{ __('Mis tareas') }} <span class="badge badge-primary badge-pill"> {{auth()->user()->tasks()->count()}}</span></a>
                         </li>
                         @endauth
                     </ul>
