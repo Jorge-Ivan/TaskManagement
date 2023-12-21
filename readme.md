@@ -37,7 +37,7 @@ php artisan serve
 This is a Laravel a web application framework for manager projects users and tasks with option of add comments to tasks.
 
 ## Entity Relationship Model - MER
-<p align="center"><img src="./storage/app/mer.png"></p>
+<p align="center"><img src="./mer.png"></p>
 
 ## Data Dictionary
 **Table: failed_jobs**
