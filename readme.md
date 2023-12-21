@@ -1,11 +1,17 @@
 <p align="center"><img src="https://laravel.com/assets/img/components/logo-laravel.svg"></p>
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
+## Requirements
+- PHP >= 7.1.3
+- BCMath PHP Extension
+- Ctype PHP Extension
+- JSON PHP Extension
+- Mbstring PHP Extension
+- OpenSSL PHP Extension
+- PDO PHP Extension
+- Tokenizer PHP Extension
+- XML PHP Extension
+
+Review more info in official documentation in https://laravel.com/docs/5.8/installation
 
 ## Installation
 
@@ -15,69 +21,125 @@ Run:
 composer install
 cp .env.example .env
 php artisan key:generate
+```
+
+Configure vars in .env: database connection, email, etc..
+
+Run
+```cmd
 php artisan migrate
 php artisan db:seed
 php artisan serve
 ```
 
-## About Laravel
+## About Project
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+This is a Laravel a web application framework for manager projects users and tasks with option of add comments to tasks.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Entity Relationship Model - MER
+<p align="center"><img src="./storage/app/mer.png"></p>
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Data Dictionary
+**Table: failed_jobs**
 
-## Learning Laravel
+Description: Table to store failed jobs in the system.
+|Field name|Datatype|Key type|Comment|
+| :-------------- | :------------- | :-------------------------- | :--------- |
+|id	|bigint(20)	|PRIMARY KEY (id)	|Identificador único autoincremental|
+|uuid	|varchar(255)|		|Identificador único universal|
+|connection	|text|		|Tipo de conexión|
+|queue	|text|		|Cola de trabajo|
+|payload	|longtext|		|Datos del trabajo|
+|exception	|longtext|		|Información de la excepción|
+|failed_at	|timestamp|		|Fecha y hora de fallo|
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+**Table: migrations**
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1100 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost you and your team's skills by digging into our comprehensive video library.
+Description: Table to store the migration log in the database.
+|Field name|Datatype|Key type|Comment|
+| :-------------- | :------------- | :-------------------------- | :--------- |
+|id	|int(10) unsigned	|PRIMARY KEY (id)	|Identificador único autoincremental
+|migration	|varchar(255)|		|Nombre de la migración
+|batch|	int(11)|		|Lote de migración
 
-## Laravel Sponsors
+**Table: password_resets**
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+Description: Table to store password reset tokens.
+|Field name|Datatype|Key type|Comment|
+| :-------------- | :------------- | :-------------------------- | :--------- |
+|email	|varchar(255)|		|Correo electrónico
+|token	|varchar(255)|		|Token de restablecimiento
+|created_at	|timestamp|		|Fecha de creación
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[British Software Development](https://www.britishsoftware.co)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- [UserInsights](https://userinsights.com)
-- [Fragrantica](https://www.fragrantica.com)
-- [SOFTonSOFA](https://softonsofa.com/)
-- [User10](https://user10.com)
-- [Soumettre.fr](https://soumettre.fr/)
-- [CodeBrisk](https://codebrisk.com)
-- [1Forge](https://1forge.com)
-- [TECPRESSO](https://tecpresso.co.jp/)
-- [Runtime Converter](http://runtimeconverter.com/)
-- [WebL'Agence](https://weblagence.com/)
-- [Invoice Ninja](https://www.invoiceninja.com)
-- [iMi digital](https://www.imi-digital.de/)
-- [Earthlink](https://www.earthlink.ro/)
-- [Steadfast Collective](https://steadfastcollective.com/)
-- [We Are The Robots Inc.](https://watr.mx/)
-- [Understand.io](https://www.understand.io/)
-- [Abdel Elrafa](https://abdelelrafa.com)
+**Table: projects**
 
-## Contributing
+Description: Table to store project information.
+|Field name|Datatype|Key type|Comment|
+| :-------------- | :------------- | :-------------------------- | :--------- |
+|id	|bigint(20) unsigned|	PRIMARY KEY (id)	|Identificador único autoincremental
+|user_id	|bigint(20) unsigned	|INDEX (projects_user_id_foreign)	|ID del usuario creador
+|name	|varchar(255)|		|Nombre del proyecto
+|description	|text|		|Descripción del proyecto
+|start_date|	date|		|Fecha de inicio del proyecto
+|created_at	|timestamp|		|Fecha de creación
+|updated_at	|timestamp|		|Fecha de última actualización
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+**Table: status**
 
-## Security Vulnerabilities
+Description: Table to store states in which tasks can be.
+|Field name|Datatype|Key type|Comment|
+| :-------------- | :------------- | :-------------------------- | :--------- |
+|id	|bigint(20) unsigned	|PRIMARY KEY (id)	|Identificador único autoincremental
+|name	|varchar(255)|		|Nombre del estado
+|active	|tinyint(4)|		|Indicador de estado
+|created_at	|timestamp|		|Fecha de creación
+|updated_at	|timestamp|		|Fecha de última actualización
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+**Table: tasks**
+
+Description: Table to store tasks related to projects.
+|Field name|Datatype|Key type|Comment|
+| :-------------- | :------------- | :-------------------------- | :--------- |
+|id	|bigint(20) unsigned	|PRIMARY KEY (id)	|Identificador único autoincremental
+|project_id	|bigint(20) unsigned	|INDEX (tasks_project_id_foreign)	|ID del proyecto padre
+|user_id	|bigint(20) unsigned	|INDEX (tasks_user_id_foreign)	|ID del usuario asignado
+|creator_id	|bigint(20) unsigned	|INDEX (tasks_creator_id_foreign)	|ID del usuario creador
+|status_id	|bigint(20) unsigned	|INDEX (tasks_status_id_foreign)	|ID del estado
+|title	|varchar(255)|		|Título de la tarea
+|description	|text|		|Descripción de la tarea
+|expire_date	|date|		|Fecha de vencimiento opcional
+|created_at	|timestamp|		|Fecha de creación
+|updated_at	|timestamp|		|Fecha de última actualización
+
+**Table: tasks_comments**
+
+Description: Table to store comments related to tasks.
+|Field name|Datatype|Key type|Comment|
+| :-------------- | :------------- | :-------------------------- | :--------- |
+|id	|bigint(20) unsigned	|PRIMARY KEY (id)	|Identificador único autoincremental
+|task_id	|bigint(20) unsigned	|INDEX (tasks_comments_task_id_foreign)	|ID de la tarea padre
+|user_id	|bigint(20) unsigned	|INDEX (tasks_comments_user_id_foreign)	|ID del usuario creador
+|content	|text|		|Contenido del comentario
+|created_at	|timestamp|		|Fecha de creación
+|updated_at	|timestamp|		|Fecha de última actualización
+
+**Table: users**
+
+Description: Table to store user information.
+|Field name|Datatype|Key type|Comment|
+| :-------------- | :------------- | :-------------------------- | :--------- |
+|id	|bigint(20) unsigned	|PRIMARY KEY (id)	|Identificador único autoincremental
+|username	|varchar(255)	|UNIQUE (users_username_unique)	|Nombre de usuario único
+|email	|varchar(255)	|UNIQUE (users_email_unique)	|Correo electrónico único
+|email_verified_at	|timestamp|		|Fecha de verificación de correo electrónico
+|password	|varchar(255)|		|Contraseña del usuario
+|remember_token	|varchar(100)|		|Token de recordatorio de sesión
+|created_at	|timestamp|		|Fecha de creación
+|updated_at	|timestamp|		|Fecha de última actualización
+
+## Copyright
+
+[Jorge Ivan Carrillo Gonzalez](https://www.linkedin.con/in/jorgecarrillog)
 
 ## License
 
