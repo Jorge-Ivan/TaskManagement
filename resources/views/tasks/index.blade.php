@@ -15,10 +15,12 @@
                     <ul class="list-group">
                         @foreach ($tasks as $task)
                         <li class="list-group-item d-flex justify-content-between align-items-center">
-                            <p><strong>{{$task->title}}</strong><br><strong>Estado: {{$task->status->name}}</strong><br>
-                            Asignado a: {{$task->user->username}} - Fecha vencimiento: {{(empty($task->expire_date))?'Sin vencimiento':$task->expire_date}}</p>
+                            <p><strong>{{$task->title}}</strong><br><strong>Estado:</strong> {{$task->status->name}}<br>
+                            <strong>Asignado a:</strong> {{$task->user->username}} - <strong>Fecha vencimiento:</strong> {{(empty($task->expire_date))?'Sin vencimiento':$task->expire_date}}<br>
+                            <strong>Proyecto: </strong>{{$task->project->name}}</p>
                             <div class="btn-group">
-                                <button onclick="editStatus({{$task->id}}, {{$task->status_id}})" class="btn btn-info"><i class="bi bi-pencil-square"></i></button>
+                                <a title="Agregar comentarios" href="{{route('comments.index', $task->id)}}" class="btn btn-secondary"><i class="bi bi-chat-right-dots-fill"></i> {{$task->comments->count()}}</a>
+                                <button title="Cambiar estado" onclick="editStatus({{$task->id}}, {{$task->status_id}})" class="btn btn-info"><i class="bi bi-pencil-square"></i></button>
                             </div>
                         </li>
                         @endforeach
@@ -72,7 +74,7 @@
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
                         error: function(error){
-                            Swal.fire({type:'danger', title:'No pudimos btener la información de la tarea.'});
+                            Swal.fire({type:'danger', title:'No pudimos obtener la información de la tarea.'});
                         }
                     }).done(function(data){
                         location.reload();

@@ -26,7 +26,7 @@ class Task extends Model
      * @var array
      */
     protected $hidden = [
-        'project_id',
+        'project_id', 'creator_id',
     ];
     
     /**
@@ -46,10 +46,26 @@ class Task extends Model
     }
     
     /**
+    * Get the creator associated with the task.
+    */
+    public function creator()
+    {
+        return $this->belongsTo(User::class, 'id', 'creator_id');
+    }
+    
+    /**
     * Get the status associated with the task.
     */
     public function status()
     {
         return $this->belongsTo(Status::class);
+    }
+    
+    /**
+     * The comments that belong to the task.
+     */
+    public function comments()
+    {
+        return $this->hasMany(TasksComment::class, 'task_id', 'id');
     }
 }

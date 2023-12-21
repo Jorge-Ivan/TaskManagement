@@ -18,7 +18,7 @@
                     
                     <ul class="nav flex-column">
                         <li class="nav-item">
-                          <a class="nav-link" href="{{route('projects.index')}}">Gestionar proyectos <span class="badge badge-primary badge-pill"> {{auth()->user()->projects()->count()}}</span></a>
+                          <a class="nav-link" href="{{route('projects.index')}}">Gestionar mis proyectos <span class="badge badge-primary badge-pill"> {{auth()->user()->projects()->count()}}</span></a>
                         </li>
                         <li class="nav-item">
                           <a class="nav-link" href="{{ route('tasks.index') }}">Mis Tareas <span class="badge badge-primary badge-pill"> {{auth()->user()->tasks()->count()}}</span></a>

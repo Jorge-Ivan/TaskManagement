@@ -52,4 +52,12 @@ class User extends Authenticatable
     {
         return $this->hasMany(Task::class);
     }
+    
+    /**
+     * The comments that belong to the user.
+     */
+    public function comments()
+    {
+        return $this->hasMany(Task::class);
+    }
 }

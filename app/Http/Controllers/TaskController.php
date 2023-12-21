@@ -23,7 +23,7 @@ class TaskController extends Controller
      */
     public function index()
     {
-        $tasks = auth()->user()->tasks;
+        $tasks = auth()->user()->tasks()->orderBy('expire_date', 'asc')->orderBy('created_at', 'desc')->get();
 
         return view('tasks.index', ['tasks'=>$tasks]);
     }
@@ -54,6 +54,7 @@ class TaskController extends Controller
             $task = new Task();
             $task->fill($request->except('_method'));
             $task->user_id = $request->user_id;
+            $task->creator_id = auth()->id();
             $task->project_id = $request->project_id;
             $task->save();
 
@@ -73,7 +74,7 @@ class TaskController extends Controller
     
     public function show($id)
     {
-        $task = Task::where('id', $id)->where('user_id', auth()->id())->firstOrFail();
+        $task = Task::where('id', $id)->firstOrFail();
         return response()->json($task);
     }
     
@@ -89,7 +90,7 @@ class TaskController extends Controller
         $request->validate($this->rules);
 
         try {
-            $task = Task::where('id', $request->id)->where('user_id', auth()->id())->firstOrFail();
+            $task = Task::where('id', $request->id)->where('creator_id', auth()->id())->firstOrFail();
             $task->fill($request->except('_method'));
             $task->save();
 
@@ -109,7 +110,7 @@ class TaskController extends Controller
     public function destroy($id)
     {
         try {
-            $task = Task::where('id', $id)->where('user_id', auth()->id())->firstOrFail();
+            $task = Task::where('id', $id)->where('creator_id', auth()->id())->firstOrFail();
 
             $task->delete();
 
@@ -125,7 +126,11 @@ class TaskController extends Controller
             'status_id' => 'required|exists:status,id'
         ]);
         try {
-            $task = Task::where('id', $id)->where('user_id', auth()->id())->firstOrFail();
+            $task = Task::where('id', $id)->where(function($query){
+                $query->where('user_id', auth()->id())
+                ->orWhere('creator_id', auth()->id());
+            })
+            ->firstOrFail();
             $task->status_id = $request->status_id;
 
             $task->save();

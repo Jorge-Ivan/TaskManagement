@@ -22,6 +22,7 @@
                             <p><strong>{{$task->title}}</strong><br><strong>Estado: {{$task->status->name}}</strong><br>
                             Asignado a: {{$task->user->username}} - Fecha vencimiento: {{(empty($task->expire_date))?'Sin vencimiento':$task->expire_date}}</p>
                             <div class="btn-group">
+                                <a title="Agregar comentarios" href="{{route('comments.index', $task->id)}}" class="btn btn-secondary"><i class="bi bi-chat-right-dots-fill"></i> {{$task->comments->count()}}</a>
                                 <button onclick="editTask({{$task->id}})" class="btn btn-info"><i class="bi bi-pencil-square"></i></button>
                                 <button onclick="deleteTask({{$task->id}})" class="btn btn-danger"><i class="bi bi-trash2-fill"></i></button>
                             </div>
@@ -61,7 +62,7 @@
 
         async function updateProject(data){
             Swal.fire({
-                title: "Crear proyecto",
+                title: "Editar proyecto",
                 html: `
                     <div class="form-group">
                         <label for="name_swal">Nombre</label>

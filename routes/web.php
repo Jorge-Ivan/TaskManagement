@@ -37,6 +37,11 @@ Route::middleware(['auth'])->prefix('tareas')->group(function () {
     Route::put('/', 'TaskController@update')->name('tasks.update');
 });
 
+Route::middleware(['auth'])->prefix('tareas/{task_id}/comentarios')->group(function () {
+    Route::get('/', 'TasksCommentController@index')->name('comments.index');
+    Route::post('/', 'TasksCommentController@store')->name('comments.store');
+});
+
 Route::middleware(['auth'])->prefix('usuarios')->group(function () {
     Route::get('/list', 'HomeController@listUsers')->name('users.list');
     Route::get('/mis-tareas', 'TaskController@index')->name('tasks.index');
